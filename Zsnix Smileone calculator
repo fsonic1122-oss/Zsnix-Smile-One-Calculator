@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zsnix Studio - Smile One Ultimate Calculator</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Rajdhani', sans-serif; }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle at center, #000b14 0%, #000000 100%);
+        padding: 20px;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 550px;
+        text-align: center;
+    }
+
+    .header, .section-header {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 900;
+        font-style: italic;
+        text-transform: uppercase;
+        background: linear-gradient(180deg, #ffffff 10%, #4facfe 50%, #0070ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 12px rgba(0, 191, 255, 0.7));
+    }
+
+    .header { font-size: 34px; margin-bottom: 5px; }
+    .section-header { font-size: 24px; margin: 35px 0 15px 0; letter-spacing: 1px; border-bottom: 1px solid rgba(0, 191, 255, 0.2); display: inline-block; padding: 0 20px 5px 20px; }
+
+    .subheader {
+        font-size: 14px;
+        color: #4facfe;
+        margin-bottom: 25px;
+        letter-spacing: 3px;
+        font-weight: bold;
+        text-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+    }
+
+    /* Rate Card */
+    .rate-card {
+        background: rgba(0, 20, 40, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 191, 255, 0.2);
+    }
+
+    .rate-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 2px;
+        background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+        animation: moveLight 3s linear infinite;
+    }
+
+    @keyframes moveLight {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+
+    .rate-input {
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        border: 1.5px solid rgba(0, 191, 255, 0.5);
+        border-radius: 10px;
+        padding: 12px;
+        color: #fff;
+        font-size: 24px;
+        text-align: center;
+        font-family: 'Orbitron', sans-serif;
+        outline: none;
+    }
+
+    /* Grid Layout */
+    .button-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    /* Item Card Style */
+    .calc-item {
+        background: rgba(0, 30, 60, 0.4);
+        border: 1px solid rgba(0, 191, 255, 0.15);
+        border-radius: 12px;
+        padding: 15px;
+        text-align: left;
+        position: relative;
+        transition: 0.3s;
+    }
+
+    .calc-item:hover {
+        border-color: #00f0ff;
+        background: rgba(0, 50, 100, 0.5);
+        transform: translateY(-3px);
+        box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+    }
+
+    .calc-item::after {
+        content: "";
+        position: absolute;
+        top: 0; right: 0;
+        width: 12px; height: 12px;
+        border-top: 2px solid #00f0ff;
+        border-right: 2px solid #00f0ff;
+        border-radius: 0 12px 0 0;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    .calc-item:hover::after { opacity: 1; }
+
+    .item-name { color: #fff; font-size: 15px; font-weight: 700; display: block; text-transform: uppercase; }
+    .coin-amt { color: #4facfe; font-size: 12px; display: block; margin-bottom: 8px; opacity: 0.8; }
+
+    .price-tag {
+        background: linear-gradient(90deg, #0052d4, #4364f7, #6fb1fc);
+        color: #fff;
+        font-weight: 900;
+        font-size: 16px;
+        padding: 6px;
+        border-radius: 8px;
+        display: block;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+    }
+
+    @media (max-width: 480px) {
+        .button-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        .header { font-size: 28px; }
+        .section-header { font-size: 20px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Zsnix Studio</div>
+    <div class="subheader">SMILE ONE CALCULATOR</div>
+
+    <div class="rate-card">
+        <label style="color:#4facfe; font-size:11px; display:block; margin-bottom:8px; letter-spacing:1px;">COIN RATE (1000 COINS = KS)</label>
+        <input type="number" id="rateInput" class="rate-input" value="74800">
+    </div>
+
+    <div class="button-grid" id="regularGrid"></div>
+
+    <div class="section-header">Double Diamond 2×</div>
+    <div class="button-grid" id="doubleGrid"></div>
+
+    <div class="section-header">Other Price</div>
+    <div class="button-grid" id="otherGrid"></div>
+</div>
+
+<script>
+    // 1. Regular Data (24 items)
+    const regularData = [
+        [86, 61.5], [172, 122.0], [257, 177.5], [343, 239.0],
+        [344, 244.0], [429, 299.5], [430, 305.5], [514, 355.0],
+        [600, 416.5], [706, 480.0], [792, 541.5], [878, 602.0],
+        [963, 657.5], [1049, 719.0], [1135, 779.5], [1220, 835.0],
+        [1412, 960.0], [1584, 1082.0], [1669, 1137.5], [1755, 1199.0],
+        [2195, 1453.0], [3688, 2424.0], [5532, 3660.0], [9288, 6079.0]
+    ];
+
+    // 2. Double Diamond Data (4 items)
+    const doubleData = [
+        [50, 39], [150, 116.9], [250, 187.5], [500, 385.0]
+    ];
+
+    // 3. Other Price Data (7 items)
+    const otherData = [
+        ["TWP", 402.5], ["SVP", 39], ["LVP", 12], ["WEB", 39],
+        ["MEB", 196.5], ["ABE", 728.4], ["T3", 343.4]
+    ];
+
+    function formatNumber(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function renderGrid(data, targetId, rate, isOther = false) {
+        const grid = document.getElementById(targetId);
+        grid.innerHTML = '';
+        data.forEach(item => {
+            const totalKs = Math.round((item[1] / 1000) * rate);
+            const card = document.createElement('div');
+            card.className = 'calc-item';
+            
+            // Icon logic: if it's other items, use a cube icon, else use diamond
+            const icon = isOther ? "📦" : "💎";
+            const prefix = isOther ? "" : " Diamond";
+
+            card.innerHTML = `
+                <span class="item-name">${icon} ${item[0]}${prefix}</span>
+                <span class="coin-amt">🪙 ${item[1]} Coins</span>
+                <span class="price-tag">${formatNumber(totalKs)} Ks</span>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function calculateAll() {
+        const rate = parseFloat(document.getElementById('rateInput').value) || 0;
+        renderGrid(regularData, 'regularGrid', rate);
+        renderGrid(doubleData, 'doubleGrid', rate);
+        renderGrid(otherData, 'otherGrid', rate, true);
+    }
+
+    document.getElementById('rateInput').addEventListener('input', calculateAll);
+    calculateAll(); // Initial Load
+</script>
+
+</body>
+</html>
