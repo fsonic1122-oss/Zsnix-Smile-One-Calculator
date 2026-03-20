@@ -49,39 +49,13 @@
 
     .section-header { font-size: 22px; margin: 35px 0 15px 0; letter-spacing: 1px; border-bottom: 1px solid rgba(0, 191, 255, 0.2); display: inline-block; padding: 0 20px 5px 20px; }
 
-    /* Weekly Pass Special Style */
-    .weekly-box {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 25px;
-    }
-
-    .weekly-btn {
-        width: 100%;
-        max-width: 400px;
-        background: rgba(0, 50, 100, 0.3);
-        border: 2px solid #00f0ff;
-        border-radius: 15px;
-        padding: 18px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-        transition: 0.3s;
-    }
-
-    .weekly-btn:hover {
-        transform: scale(1.02);
-        background: rgba(0, 70, 150, 0.4);
-        box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
-    }
-
     /* Rate Card */
     .rate-card {
         background: rgba(0, 20, 40, 0.6);
         backdrop-filter: blur(10px);
         border-radius: 15px;
         padding: 20px;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         position: relative;
         overflow: hidden;
         border: 1px solid rgba(0, 191, 255, 0.2);
@@ -112,6 +86,32 @@
         text-align: center;
         font-family: 'Orbitron', sans-serif;
         outline: none;
+    }
+
+    /* Weekly Pass Special Style - Now below Rate Input */
+    .weekly-box {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+    }
+
+    .weekly-btn {
+        width: 100%;
+        max-width: 450px;
+        background: rgba(0, 50, 100, 0.3);
+        border: 2px solid #00f0ff;
+        border-radius: 15px;
+        padding: 18px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        transition: 0.3s;
+    }
+
+    .weekly-btn:hover {
+        transform: scale(1.02);
+        background: rgba(0, 70, 150, 0.4);
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
     }
 
     /* Grid Layout */
@@ -154,7 +154,7 @@
         box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
     }
 
-    .weekly-price {
+    .weekly-price-display {
         font-size: 24px;
         margin-top: 5px;
     }
@@ -162,7 +162,6 @@
     @media (max-width: 480px) {
         .button-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
         .header { font-size: 28px; }
-        .section-header { font-size: 18px; }
     }
 </style>
 </head>
@@ -172,17 +171,17 @@
     <div class="header">Zsnix Studio</div>
     <div class="subheader">SMILE ONE CALCULATOR</div>
 
+    <div class="rate-card">
+        <label style="color:#4facfe; font-size:11px; display:block; margin-bottom:8px; letter-spacing:1px;">COIN RATE (1000 COINS = KS)</label>
+        <input type="number" id="rateInput" class="rate-input" value="74800">
+    </div>
+
     <div class="weekly-box">
         <div class="weekly-btn">
             <span class="item-name" style="font-size: 18px; text-align: center; color: #00f0ff;">✨ Weekly Diamond Pass</span>
             <span class="coin-amt" style="text-align: center; font-size: 14px; margin: 5px 0 10px 0;">🪙 76 Coins</span>
-            <span class="price-tag weekly-price" id="weeklyResult">0 Ks</span>
+            <span class="price-tag weekly-price-display" id="weeklyResult">0 Ks</span>
         </div>
-    </div>
-
-    <div class="rate-card">
-        <label style="color:#4facfe; font-size:11px; display:block; margin-bottom:8px; letter-spacing:1px;">COIN RATE (1000 COINS = KS)</label>
-        <input type="number" id="rateInput" class="rate-input" value="74800">
     </div>
 
     <div class="button-grid" id="regularGrid"></div>
